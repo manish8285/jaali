@@ -1,0 +1,16 @@
+
+
+
+*{
+  margin:0px;
+  padding:0px;
+}
+body{
+  background-color: aqua;
+}
+
+.secondSignup{
+  position: absolute;
+  right: 18px;
+  margin: auto;
+}
