@@ -7,24 +7,30 @@ const cors = require("cors")
 
 const jwt = require("jsonwebtoken")
 const User = require("./models/user")
+const todoCategory = require("./models/todoCategory")
 const app = express()
 const bodyParser = require("body-parser")
+const Todo = require("./models/todo")
+const category = require("./models/todoCategory")
+const todo = require("./models/todo")
 app.use(cors())
-
+app.use(bodyParser.json())
 const generateToken=(id)=>{
     return jwt.sign({id},"manish",{
         expiresIn:"30d"
     })
 }
 
-app.post("/login",bodyParser.json(),async(req,res)=>{
+app.post("/login",async(req,res)=>{
    const {email,password} = req.body;
+
    const user = await User.findOne({email})
+   console.log(user)
    console.log("password ="+password)
    const matched = await user.matchPassword(password)
    console.log(matched)
     if(user && matched){
-        res.json({
+      return  res.json({
             _id:user._id,
             name:user.name,
             email:user.email,
@@ -33,7 +39,7 @@ app.post("/login",bodyParser.json(),async(req,res)=>{
 
     }
 
-        res.status(400).send("Credential does not match")
+     return   res.status(400).send("Credential does not match")
     
 
 })
@@ -72,12 +78,96 @@ app.post("/signup",bodyParser.json(),async(req,res)=>{
 
 })
 
-
-app.get("/users",(req,res)=>{
+const protect=async(req,res,next)=>{
     const token =req.headers.authorization
-   const decoded = jwt.verify(toekn,"manish")
-   User.findById(decoded._id)
+    const decoded = jwt.verify(token,"manish")
 
+    if(!token && decoded){
+        return res.status(401).send("Not Authorized, Or Token Failed")
+    }
+   console.log("req body = "+req.body)
+    const user = await User.findById(decoded.id)
+    req.user = user
+    next()
+}
+
+app.get("/dashboard",protect,(req,res)=>{
+
+    return res.status(201).send(req.user)
+
+})
+
+app.post("/todo/category",protect,(req,res)=>{
+  
+    const title = req.body.title
+    if(!title){
+        return res.status(400).send(" title can not be empty")
+    }
+    todoCategory.create({
+        title:title,
+        user:req.user,
+    }).then(data=>{
+        return res.json(data)
+    }).catch(error=>{
+        return res.status(400).json(error)
+    })
+    
+})
+
+app.get("/todo/category",protect,(req,res)=>{
+    todoCategory.find({user:req.user}).then(data=>{
+        return res.json(data)
+    }).catch(error=>{
+        return res.status(400).send(error)
+    })
+})
+
+app.get("/todo/:catId",protect,async(req,res)=>{
+    console.log("inside controller ...")
+    const catId = req.params.catId
+    if(catId !=0){
+        
+        const mycat = await category.findById(catId)
+    Todo.find({user:req.user,category:mycat}).populate("category").then(data=>{
+        console.log(data)
+        return res.json(data)
+    }).catch(error=>{
+        return res.status(400).send(error)
+    })
+    }else{
+        Todo.find({user:req.user}).populate("category").then(data=>{
+            console.log(data)
+            return res.json(data)
+        }).catch(error=>{
+            return res.status(400).send(error)
+        })
+    }
+})
+
+app.post("/todo",protect,(req,res)=>{
+    const mytodo = req.body
+    
+    if(!mytodo.todo){
+        return res.status(400).send("All fields are required")
+    }
+    Todo.create({todo:mytodo.todo,category:mytodo.category,user:req.user}).then(data=>{
+        return res.json(data)
+    }).catch(error=>{
+        return res.status(400).send(error)
+    })
+})
+
+app.delete("/todo/:todoId",protect,(req,res)=>{
+    const id = req.params.todoId
+    if(!id){
+        return res.status(400).send("Path variable is missing")
+    }else{
+        todo.deleteOne({_id:id}).then(data=>{
+           return  res.send("Deleted Successfully")
+        }).catch(error=>{
+            return res.status(400).send(error)
+        })
+    }
 })
 
 

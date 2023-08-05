@@ -8,6 +8,7 @@ import Signup from './pages/Signup'
 import 'bootstrap/dist/css/bootstrap.css';
 import {ToastContainer,toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Dashboard from './pages/Dashboard'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -16,7 +17,10 @@ function App() {
     <ToastContainer position='bottom-center' />
       <Routes>
         <Route path='/login' element={<Login />} />
+        <Route path='/' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+
       </Routes>
     </BrowserRouter>
   )

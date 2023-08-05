@@ -19,10 +19,12 @@ const Login = () => {
     console.log(user)
     logIn().then(data=>{
       toast.success("Login Successfull")
-      console.log(data)
+      localStorage.setItem("user",JSON.stringify(data))
+      //console.log(data)
+      navigate("/dashboard")
 
     }).catch(error=>{
-      console.log("Crediential does not match")
+      console.log(error)
       toast.error("Crediential does not match")
       //console.log("Crediential does not match")
     })

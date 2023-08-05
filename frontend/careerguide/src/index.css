@@ -16,3 +16,113 @@ body{
 .signupButton:hover{
   background-color: #32c5d2;
 }
+
+.todoPage{
+
+  width: 100% !important;
+height: 100vh !important;
+background-color: #EA5959 !important;
+
+
+}
+
+.todoPrimary{
+  color: #EA5959 !important;
+}
+.todoBgPrimary{
+  background-color: #EA5959;
+}
+.todoBlockRight{
+  text-align: left !important;
+  padding-top: 30px;
+  padding-left: 25px;
+  padding-right: 35px;
+
+}
+
+.todoCard{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+  max-width: 983px;
+  max-height: 702px;
+  margin: auto;
+  background-color: EA5959;
+  overflow: hidden;
+
+  font-family: Lato;
+  font-style: normal;
+}
+
+.todoLeft{
+  padding-top: 135px;
+  position: relative;
+  border-right: 1px solid #D8D8D8;
+  height:100vh;
+  text-align: left;
+  padding-left: 25px;
+  
+
+}
+.todoli{
+  text-decoration: none !important;
+  list-style-type: none;
+}
+
+.todolist:hover{
+  cursor: pointer;
+  color: #EA5959;
+}
+
+.todoInput{
+  border-radius: 8px;
+background: #F3F3F3;
+
+
+}
+.todoCheckbox{
+  border: 1px solid #EA5959;
+  border-radius: 5px;
+  border-color: #EA5959;
+  position: absolute;
+  width: 25px !important;
+  height: 25px !important;
+  margin: auto;
+}
+.todoCategoryBadge{
+  display:inline;
+  background-color: #EA5959;
+  color: #FFF;
+font-family: Lato;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+  margin-left: 20px;
+
+  padding: 5px 25px 5px 25px ;
+  border-radius: 5px;
+
+}
+.todoDelete{
+  position: relative ;
+  float: right;
+  cursor: pointer;
+}
+
+@media screen  and (max-width:600px) {
+  .todoLeft{
+    padding-top: 135px;
+    position: relative;
+    border-right: 1px solid #D8D8D8;
+    height:100% !important;
+    text-align: left;
+    padding-left: 25px;
+    
+  
+  }
+}
+
