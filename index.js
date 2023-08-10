@@ -25,6 +25,10 @@ const generateToken=(id)=>{
     })
 }
 
+app.get("/",(req,res)=>{
+    return res.send(" Smart Todo API");
+})
+
 app.post("/login",async(req,res)=>{
    const {email,password} = req.body;
 
