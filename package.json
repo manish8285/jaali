@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "sudo nodemon index.js"
+    "test": "sudo nodemon index.js",
+    "server": "node index.js",
+    "start": "index.js"
+
   },
   "author": "Manish Kumar Singh",
   "license": "ISC",
@@ -16,5 +19,6 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.1"
+    
   }
 }
