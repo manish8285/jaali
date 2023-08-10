@@ -20,3 +20,7 @@ export const getAllTodos=(catId)=>{
 export const addTodo=(todo)=>{
     return privateAxios.post(`todo`,todo).then(response=>response.data)
  }
+
+ export const updateTodo=(id,todo)=>{
+   return privateAxios.put(`todo/${id}`,todo).then(response=>response.data)
+}

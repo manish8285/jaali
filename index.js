@@ -13,6 +13,10 @@ const bodyParser = require("body-parser")
 const Todo = require("./models/todo")
 const category = require("./models/todoCategory")
 const todo = require("./models/todo")
+
+
+const PORT = process.env.PORT || 8181
+
 app.use(cors())
 app.use(bodyParser.json())
 const generateToken=(id)=>{
@@ -78,6 +82,7 @@ app.post("/signup",bodyParser.json(),async(req,res)=>{
 
 })
 
+//middleware for authorization
 const protect=async(req,res,next)=>{
     const token =req.headers.authorization
     const decoded = jwt.verify(token,"manish")
@@ -91,14 +96,13 @@ const protect=async(req,res,next)=>{
     next()
 }
 
+// 
 app.get("/dashboard",protect,(req,res)=>{
-
     return res.status(201).send(req.user)
-
 })
 
+// add new category
 app.post("/todo/category",protect,(req,res)=>{
-  
     const title = req.body.title
     if(!title){
         return res.status(400).send(" title can not be empty")
@@ -114,6 +118,7 @@ app.post("/todo/category",protect,(req,res)=>{
     
 })
 
+// get categories
 app.get("/todo/category",protect,(req,res)=>{
     todoCategory.find({user:req.user}).then(data=>{
         return res.json(data)
@@ -122,9 +127,12 @@ app.get("/todo/category",protect,(req,res)=>{
     })
 })
 
+// get todos with category
 app.get("/todo/:catId",protect,async(req,res)=>{
     console.log("inside controller ...")
     const catId = req.params.catId
+
+    // get 
     if(catId !=0){
         
         const mycat = await category.findById(catId)
@@ -136,7 +144,7 @@ app.get("/todo/:catId",protect,async(req,res)=>{
     })
     }else{
         Todo.find({user:req.user}).populate("category").then(data=>{
-            console.log(data)
+           // console.log(data)
             return res.json(data)
         }).catch(error=>{
             return res.status(400).send(error)
@@ -144,6 +152,7 @@ app.get("/todo/:catId",protect,async(req,res)=>{
     }
 })
 
+// add new todo
 app.post("/todo",protect,(req,res)=>{
     const mytodo = req.body
     
@@ -157,6 +166,7 @@ app.post("/todo",protect,(req,res)=>{
     })
 })
 
+// delete todo
 app.delete("/todo/:todoId",protect,(req,res)=>{
     const id = req.params.todoId
     if(!id){
@@ -170,9 +180,26 @@ app.delete("/todo/:todoId",protect,(req,res)=>{
     }
 })
 
+// update todo
+app.put("/todo/:todoId",protect,(req,res)=>{
+    const id = req.params.todoId
+    const {todo} = req.body
+    if(!id){
+        return res.status(400).send("Path variable is missing")
+    }else{
+        Todo.updateOne({_id:id},{
+            $set:{todo:todo}
+        }).then(data=>{
+           return  res.send("Deleted Successfully")
+        }).catch(error=>{
+            return res.status(400).send(error)
+        })
+    }
+})
 
 
-app.listen(process.env.PORT,()=>{
-    console.log("listening at port "+process.env.PORT)
+//
+app.listen(PORT,()=>{
+    console.log("listening at port "+PORT)
 })
 

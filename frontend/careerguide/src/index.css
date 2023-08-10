@@ -87,10 +87,9 @@ background: #F3F3F3;
   border: 1px solid #EA5959;
   border-radius: 5px;
   border-color: #EA5959;
-  position: absolute;
   width: 25px !important;
   height: 25px !important;
-  margin: auto;
+
 }
 .todoCategoryBadge{
   display:inline;
@@ -112,10 +111,18 @@ line-height: normal;
   float: right;
   cursor: pointer;
 }
+.rContainer{
+  height: 540px !important;
+  overflow:auto;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
 
 @media screen  and (max-width:600px) {
   .todoLeft{
-    padding-top: 135px;
+    padding-top: 35px;
     position: relative;
     border-right: 1px solid #D8D8D8;
     height:100% !important;
@@ -124,5 +131,10 @@ line-height: normal;
     
   
   }
+.rContainer{
+  height: 440px !important;
+  overflow:auto;
+}
+
 }
 
