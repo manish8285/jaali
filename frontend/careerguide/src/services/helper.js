@@ -1,6 +1,7 @@
 import axios from "axios"
 
 export const BASE_URL="https://jaali-manish8285.vercel.app/"
+//export const BASE_URL="http://localhost:8181/"
 
 
 export const privateAxios = axios.create({

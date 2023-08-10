@@ -32,11 +32,11 @@ app.get("/",(req,res)=>{
 app.post("/login",async(req,res)=>{
    const {email,password} = req.body;
 
+   try{
    const user = await User.findOne({email})
-   console.log(user)
-   console.log("password ="+password)
-   const matched = await user.matchPassword(password)
-   console.log(matched)
+   let matched
+   if(user)
+    matched = await user.matchPassword(password)
     if(user && matched){
       return  res.json({
             _id:user._id,
@@ -46,9 +46,11 @@ app.post("/login",async(req,res)=>{
         })
 
     }
-
-     return   res.status(400).send("Credential does not match")
-    
+    }catch(error){
+        return   res.status(400).send("Credential does not match")
+    }
+     
+    return   res.status(400).send("Credential does not match") 
 
 })
 
@@ -61,7 +63,6 @@ app.post("/signup",bodyParser.json(),async(req,res)=>{
         
         
     }
-
                 const email = user.email
                 const userExist = await User.findOne({email});
 
@@ -202,7 +203,7 @@ app.put("/todo/:todoId",protect,(req,res)=>{
 })
 
 
-//
+// port setting
 app.listen(PORT,()=>{
     console.log("listening at port "+PORT)
 })
