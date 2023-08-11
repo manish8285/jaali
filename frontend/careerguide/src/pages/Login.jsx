@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Button, Card, CardBody, Container, FormGroup, Input } from 'reactstrap'
+import { BASE_URL } from '../services/helper'
 
 const Login = () => {
   let navigate = useNavigate()
@@ -12,7 +13,7 @@ const Login = () => {
   })
 
   const logIn=()=>{
-    return axios.post("http://localhost:8181/login",user).then(response=>response.data)
+    return axios.post(BASE_URL+"login",user).then(response=>response.data)
   }
 
   const signIn=()=>{

@@ -5,6 +5,7 @@ import countryCode from './countryCode'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { BASE_URL } from '../services/helper'
 
 const Signup = () => {
   let navigate=useNavigate()
@@ -19,7 +20,7 @@ const Signup = () => {
   })
 
   const registerUser=(user)=>{
-    return axios.post("http://localhost:8181/signup",user).then(response=>response.data)
+    return axios.post(BASE_URL+"signup",user).then(response=>response.data)
   }
   const register=()=>{
     console.log(user)
